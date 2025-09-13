@@ -12,6 +12,8 @@ builder.WebHost.UseKestrel(options => options.AddServerHeader = false);
 
 builder.Host.UseDefaultServiceProvider(config => config.ValidateOnBuild = true);
 
+builder.Services.AddResponseCompression(options => options.EnableForHttps = true);
+
 builder.Services.AddApplicationInsightsTelemetry();
 builder.Services.AddProblemDetails();
 
@@ -39,6 +41,8 @@ app.UseSecurityHeaders(policies => policies
     .AddPermissionsPolicyWithDefaultSecureDirectives()
     // Adjust CSP for Developper Exception Page
     .AddContentSecurityPolicy(configure => configure.AddScriptSrc().Self().UnsafeInline()));
+
+app.UseResponseCompression();
 
 if (app.Environment.IsDevelopment())
     app.UseDeveloperExceptionPage();
