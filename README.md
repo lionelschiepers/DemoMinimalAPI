@@ -25,7 +25,8 @@ Lionel Schiepers
 # TODO
 - Add authentication and authorization
 - Endpoint that receives any json
-- xUnit for integration testing.
+- xUnit for integration testing
+- Clean architecture
 
 # References
 

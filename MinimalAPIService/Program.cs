@@ -25,9 +25,7 @@ builder.Services.AddSerilog((sp, config) =>
         .Filter.ByExcluding("RequestPath like '/health%'")
         .Filter.ByExcluding("Uri like '%/health%'")
         .Filter.ByExcluding(ev => ev.MessageTemplate.Text.Equals("Saved {count} entities to in-memory store."))
-        .ReadFrom.Configuration(sp.GetRequiredService<IConfiguration>())
-        .WriteTo.ApplicationInsights(new TraceTelemetryConverter())
-        .WriteTo.Console();
+        .ReadFrom.Configuration(sp.GetRequiredService<IConfiguration>());
 });
 
 builder.Services.ConfigureHealthChecks();
