@@ -3,6 +3,7 @@ using MinimalAPIService;
 using MinimalAPIService.SimulationService;
 using Scalar.AspNetCore;
 using Serilog;
+using Serilog.Sinks.ApplicationInsights.TelemetryConverters;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,6 +12,7 @@ builder.WebHost.UseKestrel(options => options.AddServerHeader = false);
 
 builder.Host.UseDefaultServiceProvider(config => config.ValidateOnBuild = true);
 
+builder.Services.AddApplicationInsightsTelemetry();
 builder.Services.AddProblemDetails();
 
 builder.Services.AddOpenApi();
@@ -24,6 +26,7 @@ builder.Services.AddSerilog((sp, config) =>
         .Filter.ByExcluding("Uri like '%/health%'")
         .Filter.ByExcluding(ev => ev.MessageTemplate.Text.Equals("Saved {count} entities to in-memory store."))
         .ReadFrom.Configuration(sp.GetRequiredService<IConfiguration>())
+        .WriteTo.ApplicationInsights(new TraceTelemetryConverter())
         .WriteTo.Console();
 });
 
