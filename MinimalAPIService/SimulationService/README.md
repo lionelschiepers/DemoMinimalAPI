@@ -1,4 +1,4 @@
 # Simulation Endpoint
 
-/Service1.svc
+/SimulationService/Service1.svc
 
