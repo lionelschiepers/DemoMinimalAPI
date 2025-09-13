@@ -18,13 +18,13 @@ builder.Services.AddOpenApi();
 builder.Services.AddSerilog((sp, config) =>
 {
     config
-    .Enrich.FromLogContext()
-    .Filter.ByExcluding("RequestPath like '/favicon.ico'")
-    .Filter.ByExcluding("RequestPath like '/health%'")
-    .Filter.ByExcluding("Uri like '%/health%'")
-    .Filter.ByExcluding(ev => ev.MessageTemplate.Text.Equals("Saved {count} entities to in-memory store."))
-    .ReadFrom.Configuration(sp.GetRequiredService<IConfiguration>())
-    .WriteTo.Console();
+        .Enrich.FromLogContext()
+        .Filter.ByExcluding("RequestPath like '/favicon.ico'")
+        .Filter.ByExcluding("RequestPath like '/health%'")
+        .Filter.ByExcluding("Uri like '%/health%'")
+        .Filter.ByExcluding(ev => ev.MessageTemplate.Text.Equals("Saved {count} entities to in-memory store."))
+        .ReadFrom.Configuration(sp.GetRequiredService<IConfiguration>())
+        .WriteTo.Console();
 });
 
 builder.Services.ConfigureHealthChecks();
@@ -32,6 +32,7 @@ builder.Services.ConfigureHealthChecks();
 var app = builder.Build();
 
 app.UseSerilogRequestLogging();
+
 app.UseSecurityHeaders(policies => policies
     .AddDefaultApiSecurityHeaders()
     .AddPermissionsPolicyWithDefaultSecureDirectives()
@@ -75,10 +76,11 @@ if (app.Environment.IsDevelopment())
     app.MapOpenApi();
     app.MapScalarApiReference(options =>
     {
-        options.WithTitle("Minimal API Service")
-        .WithDefaultHttpClient(ScalarTarget.CSharp, ScalarClient.HttpClient)
-        .WithTheme(ScalarTheme.Saturn)
-        .WithDarkMode();
+        options
+            .WithTitle("Minimal API Service")
+            .WithDefaultHttpClient(ScalarTarget.CSharp, ScalarClient.HttpClient)
+            .WithTheme(ScalarTheme.Saturn)
+            .WithDarkMode();
     }).AllowAnonymous();
 }
 
