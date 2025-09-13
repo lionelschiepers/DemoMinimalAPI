@@ -8,6 +8,7 @@ It integrates:
 - Application Insights for telemetry and logging.
 - Serilog for structured logging.
 - Security headers for enhanced security.
+- New slnx Visual Studio solution format.
 
 # Author
 Lionel Schiepers
@@ -18,8 +19,8 @@ Lionel Schiepers
 | --- | ----------- |
 | /openapi/v1.json | OpenAPI description |
 | /scalar | OpenAPI interactive playgroud UI |
-| /health | health check status |
-| /health-ui | visual health UI |
+| /health | health checks status |
+| /health-ui | health checks UI |
 
 # TODO
 - Add authentication and authorization
