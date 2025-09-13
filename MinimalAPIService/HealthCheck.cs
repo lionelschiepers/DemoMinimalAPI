@@ -5,7 +5,7 @@ namespace MinimalAPIService
 {
     public static class HealthCheckExtensions
     {
-        public static void ConfigureHealthChecks(this IServiceCollection services, IConfiguration configuration)
+        public static void ConfigureHealthChecks(this IServiceCollection services)
         {
             services.AddHealthChecks();
 

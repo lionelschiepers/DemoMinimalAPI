@@ -18,7 +18,7 @@ builder.Services.AddSerilog((sp, config) =>
     .WriteTo.Console();
 });
 
-builder.Services.ConfigureHealthChecks(builder.Configuration);
+builder.Services.ConfigureHealthChecks();
 
 var app = builder.Build();
 
@@ -48,10 +48,10 @@ app.MapHealthChecks("/health", new HealthCheckOptions()
     ResponseWriter = HealthChecks.UI.Client.UIResponseWriter.WriteHealthCheckUIResponse
 }).AllowAnonymous();
 
-app.UseHealthChecksUI(options => 
+app.UseHealthChecksUI(options =>
 {
     options.UIPath = "/health-ui";
- );
+});
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
