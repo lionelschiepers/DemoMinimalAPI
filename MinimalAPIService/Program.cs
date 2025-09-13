@@ -1,3 +1,5 @@
+using Microsoft.AspNetCore.Diagnostics.HealthChecks;
+using MinimalAPIService;
 using MinimalAPIService.SimulationService;
 using Scalar.AspNetCore;
 using Serilog;
@@ -15,6 +17,8 @@ builder.Services.AddSerilog((sp, config) =>
     .ReadFrom.Configuration(sp.GetRequiredService<IConfiguration>())
     .WriteTo.Console();
 });
+
+builder.Services.ConfigureHealthChecks(builder.Configuration);
 
 var app = builder.Build();
 
@@ -37,6 +41,17 @@ app.UseStatusCodePages(async statusCodeContext
     => await Results
         .Problem(statusCode: statusCodeContext.HttpContext.Response.StatusCode)
         .ExecuteAsync(statusCodeContext.HttpContext));
+
+app.MapHealthChecks("/health", new HealthCheckOptions()
+{
+    Predicate = _ => true,
+    ResponseWriter = HealthChecks.UI.Client.UIResponseWriter.WriteHealthCheckUIResponse
+}).AllowAnonymous();
+
+app.UseHealthChecksUI(options => 
+{
+    options.UIPath = "/health-ui";
+ );
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
