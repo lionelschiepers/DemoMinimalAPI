@@ -19,6 +19,10 @@ builder.Services.AddSerilog((sp, config) =>
 {
     config
     .Enrich.FromLogContext()
+    .Filter.ByExcluding("RequestPath like '/favicon.ico'")
+    .Filter.ByExcluding("RequestPath like '/health%'")
+    .Filter.ByExcluding("Uri like '%/health%'")
+    .Filter.ByExcluding(ev => ev.MessageTemplate.Text.Equals("Saved {count} entities to in-memory store."))
     .ReadFrom.Configuration(sp.GetRequiredService<IConfiguration>())
     .WriteTo.Console();
 });
@@ -32,7 +36,7 @@ app.UseSecurityHeaders(policies => policies
     .AddDefaultApiSecurityHeaders()
     .AddPermissionsPolicyWithDefaultSecureDirectives()
     // Adjust CSP for Developper Exception Page
-    .AddContentSecurityPolicy(configure => configure.AddScriptSrc().Self().UnsafeInline())); 
+    .AddContentSecurityPolicy(configure => configure.AddScriptSrc().Self().UnsafeInline()));
 
 if (app.Environment.IsDevelopment())
     app.UseDeveloperExceptionPage();

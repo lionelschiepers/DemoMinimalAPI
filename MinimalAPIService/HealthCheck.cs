@@ -1,7 +1,4 @@
-﻿using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Diagnostics.HealthChecks;
-
-namespace MinimalAPIService
+﻿namespace MinimalAPIService
 {
     public static class HealthCheckExtensions
     {
