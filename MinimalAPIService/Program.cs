@@ -4,11 +4,19 @@ using MinimalAPIService.SimulationService;
 using Scalar.AspNetCore;
 using Serilog;
 using Serilog.Sinks.ApplicationInsights.TelemetryConverters;
+using System.Security.Authentication;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // the client doesn't need to know the technology about the server.
-builder.WebHost.UseKestrel(options => options.AddServerHeader = false);
+builder.WebHost.UseKestrel(options =>
+{
+    options.AddServerHeader = false;
+    options.ConfigureHttpsDefaults(httpsOptions =>
+    {
+        httpsOptions.SslProtocols = SslProtocols.Tls13;
+    });
+});
 
 builder.Host.UseDefaultServiceProvider(config => config.ValidateOnBuild = true);
 
