@@ -9,6 +9,8 @@ var builder = WebApplication.CreateBuilder(args);
 // the client doesn't need to know the technology about the server.
 builder.WebHost.UseKestrel(options => options.AddServerHeader = false);
 
+builder.Host.UseDefaultServiceProvider(config => config.ValidateOnBuild = true);
+
 builder.Services.AddProblemDetails();
 
 builder.Services.AddOpenApi();
@@ -24,6 +26,13 @@ builder.Services.AddSerilog((sp, config) =>
 builder.Services.ConfigureHealthChecks();
 
 var app = builder.Build();
+
+app.UseSerilogRequestLogging();
+app.UseSecurityHeaders(policies => policies
+    .AddDefaultApiSecurityHeaders()
+    .AddPermissionsPolicyWithDefaultSecureDirectives()
+    // Adjust CSP for Developper Exception Page
+    .AddContentSecurityPolicy(configure => configure.AddScriptSrc().Self().UnsafeInline())); 
 
 if (app.Environment.IsDevelopment())
     app.UseDeveloperExceptionPage();
