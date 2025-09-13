@@ -6,6 +6,9 @@ using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
 
+// the client doesn't need to know the technology about the server.
+builder.WebHost.UseKestrel(options => options.AddServerHeader = false);
+
 builder.Services.AddProblemDetails();
 
 builder.Services.AddOpenApi();
