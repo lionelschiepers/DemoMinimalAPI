@@ -1,3 +1,8 @@
 <Solution>
+  <Folder Name="/Solution files/">
+    <File Path=".dockerignore" />
+    <File Path=".gitignore" />
+    <File Path="README.md" />
+  </Folder>
   <Project Path="MinimalAPIService/MinimalAPIService.csproj" />
 </Solution>
