@@ -28,6 +28,9 @@ Lionel Schiepers
 - Endpoint that receives any json
 - xUnit for integration testing
 - Clean architecture
+- Event-Driven architecture 
+- Domain-Driven design 
+- CQRS
 
 # References
 
