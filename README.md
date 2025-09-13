@@ -24,7 +24,7 @@ Lionel Schiepers
 
 # Services
 
-[SimulationService](DemoMinimalAPI/MinimalAPIService/SimulationService/README.md)
+[SimulationService](MinimalAPIService/SimulationService/README.md)
 
 # TODO
 
