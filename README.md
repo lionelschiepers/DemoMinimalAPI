@@ -1,13 +1,12 @@
 # Minimal API Demo
 
-This project demonstrates a simple Minimal API using .NET 9.0.
+This project demonstrates a simple Minimal API using .NET 9.0.\
 It integrates:
 - Swagger/OpenAPI for API documentation and testing
 - Scalar for interactive API exploration
 - Health checks for monitoring the application's status.
 - Application Insights for telemetry and logging.
 - Serilog for structured logging.
-- xUnit for unit testing.
 - Security headers for enhanced security.
 
 # Author
@@ -25,6 +24,7 @@ Lionel Schiepers
 # TODO
 - Add authentication and authorization
 - Endpoint that receives any json
+- xUnit for integration testing.
 
 # References
 
