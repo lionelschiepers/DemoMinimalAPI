@@ -4,5 +4,6 @@
     <File Path=".gitignore" />
     <File Path="README.md" />
   </Folder>
+  <Project Path="MinimalAPIService.IntegrationTests/MinimalAPIService.IntegrationTests.csproj" />
   <Project Path="MinimalAPIService/MinimalAPIService.csproj" />
 </Solution>

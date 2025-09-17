@@ -3,7 +3,6 @@ using MinimalAPIService;
 using MinimalAPIService.SimulationService;
 using Scalar.AspNetCore;
 using Serilog;
-using Serilog.Sinks.ApplicationInsights.TelemetryConverters;
 using System.Security.Authentication;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -117,3 +116,6 @@ if (!app.Environment.IsDevelopment())
 SimulationService.Register(app);
 
 app.Run();
+
+// Make the implicit Program class public so test projects can access it
+public partial class Program { }
