@@ -3,21 +3,13 @@ using System.Net;
 
 namespace MinimalAPIService.IntegrationTests;
 
-public class APITests :
+public class APITests(CustomWebApplicationFactory<Program> _factory) :
     IClassFixture<CustomWebApplicationFactory<Program>>
 {
-    private readonly HttpClient _client;
-    private readonly CustomWebApplicationFactory<Program> _factory;
-
-    public APITests(
-        CustomWebApplicationFactory<Program> factory)
+    private readonly HttpClient _client = _factory.CreateClient(new WebApplicationFactoryClientOptions
     {
-        _factory = factory;
-        _client = factory.CreateClient(new WebApplicationFactoryClientOptions
-        {
-            AllowAutoRedirect = false
-        });
-    }
+        AllowAutoRedirect = false
+    });
 
     [Fact]
     public async Task Status500_Returns500()

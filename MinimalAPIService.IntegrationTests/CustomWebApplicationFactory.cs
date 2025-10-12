@@ -8,6 +8,8 @@ namespace MinimalAPIService.IntegrationTests
     {
         protected override void ConfigureWebHost(IWebHostBuilder builder)
         {
+            ArgumentNullException.ThrowIfNull(builder);
+
             builder.ConfigureServices(services =>
             {
             });

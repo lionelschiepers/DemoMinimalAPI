@@ -1,13 +1,9 @@
-﻿namespace MinimalAPIService.SimulationService
+﻿namespace MinimalAPIService.HelloWorld
 {
-    public class SimulationService
+    public static class HelloWorldAPI
     {
         public static void Register(WebApplication app)
         {
-            var summaries = new[]
-            {
-                "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-            };
             app.MapGet("/weatherforecast", () =>
             {
                 var forecast = Enumerable.Range(1, 5).Select(index =>

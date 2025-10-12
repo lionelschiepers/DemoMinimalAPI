@@ -1,9 +1,8 @@
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using MinimalAPIService;
-using MinimalAPIService.SimulationService;
+using MinimalAPIService.HelloWorld;
 using Scalar.AspNetCore;
 using Serilog;
-using System.Security.Authentication;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,10 +10,6 @@ var builder = WebApplication.CreateBuilder(args);
 builder.WebHost.UseKestrel(options =>
 {
     options.AddServerHeader = false;
-    options.ConfigureHttpsDefaults(httpsOptions =>
-    {
-        httpsOptions.SslProtocols = SslProtocols.Tls13;
-    });
 });
 
 builder.Host.UseDefaultServiceProvider(config => config.ValidateOnBuild = true);
@@ -33,7 +28,7 @@ builder.Services.AddSerilog((sp, config) =>
         .Filter.ByExcluding("RequestPath like '/favicon.ico'")
         .Filter.ByExcluding("RequestPath like '/health%'")
         .Filter.ByExcluding("Uri like '%/health%'")
-        .Filter.ByExcluding(ev => ev.MessageTemplate.Text.Equals("Saved {count} entities to in-memory store."))
+        .Filter.ByExcluding(ev => ev.MessageTemplate.Text.Equals("Saved {count} entities to in-memory store.", StringComparison.OrdinalIgnoreCase))
         .ReadFrom.Configuration(sp.GetRequiredService<IConfiguration>());
 });
 
@@ -113,9 +108,11 @@ if (!app.Environment.IsDevelopment())
     app.UseHttpsRedirection();
 }
 
-SimulationService.Register(app);
+HelloWorldAPI.Register(app);
 
-app.Run();
+await app.RunAsync();
 
 // Make the implicit Program class public so test projects can access it
+#pragma warning disable S1118 // Utility classes should not have public constructors
 public partial class Program { }
+#pragma warning restore S1118 // Utility classes should not have public constructors
