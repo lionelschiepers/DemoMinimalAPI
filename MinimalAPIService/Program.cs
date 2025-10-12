@@ -12,7 +12,11 @@ builder.WebHost.UseKestrel(options =>
     options.AddServerHeader = false;
 });
 
+builder.Services.AddHttpClient();
+
 builder.Host.UseDefaultServiceProvider(config => config.ValidateOnBuild = true);
+
+builder.Services.AddMediatR(configuration => configuration.RegisterServicesFromAssemblyContaining<Program>());
 
 builder.Services.AddResponseCompression(options => options.EnableForHttps = true);
 
@@ -30,6 +34,21 @@ builder.Services.AddSerilog((sp, config) =>
         .Filter.ByExcluding("Uri like '%/health%'")
         .Filter.ByExcluding(ev => ev.MessageTemplate.Text.Equals("Saved {count} entities to in-memory store.", StringComparison.OrdinalIgnoreCase))
         .ReadFrom.Configuration(sp.GetRequiredService<IConfiguration>());
+});
+
+builder.Services.Configure<Microsoft.AspNetCore.Http.Json.JsonOptions>(options =>
+{
+    //Doesn't consider case when looking for a matching property    
+    options.SerializerOptions.PropertyNameCaseInsensitive = true;
+
+    //Keeps object property names the same case as they are defined in the model
+    options.SerializerOptions.PropertyNamingPolicy = null;
+
+    //Pretty prints the output in the browser! :)    
+    options.SerializerOptions.WriteIndented = builder.Environment.IsDevelopment();
+
+    // Ignore null values when serializing
+    options.SerializerOptions.DefaultIgnoreCondition = System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingNull;
 });
 
 builder.Services.ConfigureHealthChecks();

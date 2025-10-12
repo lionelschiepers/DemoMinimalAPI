@@ -19,5 +19,4 @@ public class APITests(CustomWebApplicationFactory<Program> _factory) :
 
         Assert.Equal(HttpStatusCode.InternalServerError, defaultPage.StatusCode);
     }
-
 }
