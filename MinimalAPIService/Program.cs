@@ -106,7 +106,7 @@ if (app.Environment.IsDevelopment())
             .WithTitle("Minimal API Service")
             .WithDefaultHttpClient(ScalarTarget.CSharp, ScalarClient.HttpClient)
             .WithTheme(ScalarTheme.Saturn)
-            .WithDarkMode();
+            .EnableDarkMode();
     }).AllowAnonymous();
 }
 
